@@ -1,9 +1,3 @@
-Perfect timing, Venkata 👌 — here’s a focused, clean README.md for your Genpod UI project — just enough to explain the setup and features up to Phase 5.
-
-⸻
-
-✅ README.md
-
 # Genpod UI
 
 Frontend UI for the Genpod platform — an AI agent workspace for building and managing Genpod models.
