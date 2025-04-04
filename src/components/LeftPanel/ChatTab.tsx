@@ -1,17 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/atom-one-dark.css'
 
-import {
-  Plus,
-  Paperclip,
-  Mic,
-  Send,
-} from 'lucide-react'
+import { Plus, Paperclip, Mic, Send } from 'lucide-react'
 
 type Message = {
   id: number
@@ -23,6 +18,12 @@ export default function ChatTab() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const bottomRef = useRef<HTMLDivElement | null>(null)
+
+  // Scroll to bottom on new message
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   const handleSend = async () => {
     if (!input.trim()) return
@@ -70,7 +71,7 @@ export default function ChatTab() {
 
   return (
     <div className="flex flex-col h-full bg-white">
-      {/* Message list */}
+      {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.map((msg) => (
           <div
@@ -83,23 +84,16 @@ export default function ChatTab() {
           >
             {msg.sender === 'genpod' ? (
               <ReactMarkdown
-                children={msg.text}
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight]}
                 components={{
                   p: ({ node, children }) => {
-                    // Avoid wrapping <p> around <pre> (which is invalid HTML)
-                    if (
-                      node.children &&
-                      node.children[0] &&
-                      node.children[0].tagName === 'pre'
-                    ) {
-                      return <>{children}</>
-                    }
-                  
-                    return <p className="mb-2 text-sm">{children}</p>
+                    const hasCode = node.children?.some(
+                      (child: any) => child.tagName === 'pre' || child.tagName === 'code'
+                    )
+                    return hasCode ? <>{children}</> : <p className="mb-2 text-sm">{children}</p>
                   },
-                  code: ({ node, inline, className, children, ...props }) =>
+                  code: ({ inline, children, ...props }) =>
                     inline ? (
                       <code className="bg-gray-200 px-1 rounded text-sm">{children}</code>
                     ) : (
@@ -109,14 +103,16 @@ export default function ChatTab() {
                     ),
                   li: ({ children }) => <li className="ml-4 list-disc text-sm">{children}</li>,
                 }}
-              />
+              >
+                {msg.text}
+              </ReactMarkdown>
             ) : (
               msg.text
             )}
           </div>
         ))}
 
-        {/* Spinner while Genpod is thinking */}
+        {/* Loading spinner */}
         {isLoading && (
           <div className="mr-auto flex items-center gap-2 px-2 py-1 text-sm text-gray-500">
             <svg
@@ -132,22 +128,24 @@ export default function ChatTab() {
                 r="10"
                 stroke="currentColor"
                 strokeWidth="4"
-              ></circle>
+              />
               <path
                 className="opacity-75"
                 fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              ></path>
+              />
             </svg>
             Genpod is thinking...
           </div>
         )}
+
+        {/* Scroll Target */}
+        <div ref={bottomRef} />
       </div>
 
-      {/* Input bar */}
+      {/* Input Bar */}
       <div className="bg-white p-3 shadow-sm">
         <div className="rounded-2xl border bg-gray-50 px-4 py-3 shadow-sm w-full">
-          {/* Input Field */}
           <input
             type="text"
             className="w-full bg-transparent text-sm text-gray-800 placeholder-gray-500 outline-none"
@@ -157,14 +155,11 @@ export default function ChatTab() {
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
           />
 
-          {/* Bottom Row – Icons + Send */}
           <div className="flex items-center justify-between mt-3">
-            {/* Left Icons */}
             <div className="flex items-center gap-4 text-gray-600">
               <button className="hover:text-blue-500 hover:scale-110 transition" title="More">
                 <Plus size={18} />
               </button>
-
               <label
                 className="cursor-pointer hover:text-blue-500 hover:scale-110 transition"
                 title="Attach File"
@@ -172,13 +167,11 @@ export default function ChatTab() {
                 <Paperclip size={18} />
                 <input type="file" className="hidden" />
               </label>
-
               <button className="hover:text-blue-500 hover:scale-110 transition" title="Voice">
                 <Mic size={18} />
               </button>
             </div>
 
-            {/* Send Button */}
             <button
               onClick={handleSend}
               className="rounded-full bg-blue-500 p-2 hover:bg-blue-600 transition text-white"

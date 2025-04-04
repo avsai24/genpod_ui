@@ -1,7 +1,7 @@
 'use client'
 
 import Split from 'react-split'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function SplitLayout({
   left,
@@ -10,6 +10,27 @@ export default function SplitLayout({
   left: React.ReactNode
   right: React.ReactNode
 }) {
+  useEffect(() => {
+    // This is just to ensure global styles for gutter are present
+    const style = document.createElement('style')
+    style.innerHTML = `
+  .custom-gutter {
+    background-color: #001;
+    width: 0.5px;
+    cursor: col-resize;
+    transition: background-color 0.2s ease;
+  }
+
+  .custom-gutter:hover {
+    background-color: #333; /* subtle on hover */
+  }
+`
+    document.head.appendChild(style)
+    return () => {
+      document.head.removeChild(style)
+    }
+  }, [])
+
   return (
     <Split
       className="flex w-full h-screen"
@@ -17,7 +38,11 @@ export default function SplitLayout({
       minSize={200}
       gutterSize={6}
       direction="horizontal"
-      style={{ display: 'flex' }}
+      gutter={() => {
+        const gutter = document.createElement('div')
+        gutter.className = 'custom-gutter'
+        return gutter
+      }}
     >
       <div className="h-full overflow-auto bg-gray-100 border-r">{left}</div>
       <div className="h-full overflow-auto bg-white">{right}</div>
