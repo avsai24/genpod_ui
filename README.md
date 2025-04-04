@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Perfect timing, Venkata 👌 — here’s a focused, clean README.md for your Genpod UI project — just enough to explain the setup and features up to Phase 5.
 
-## Getting Started
+⸻
 
-First, run the development server:
+✅ README.md
+
+# Genpod UI
+
+Frontend UI for the Genpod platform — an AI agent workspace for building and managing Genpod models.
+
+Built with:
+- ✅ Next.js 15
+- ✅ React 19 (App Router)
+- ✅ Tailwind CSS
+- ✅ Lucide icons
+- ✅ Chat + Metrics + Logs tabs
+- ✅ Real-time LLM (Gemini 1.5 Flash)
+- ✅ File-tabbed layout coming soon
+
+---
+
+## 🚀 Features (Completed Phases)
+
+### 💬 Chat Tab
+- Conversational UI powered by Gemini 1.5 Flash
+- Message input with file upload, mic, and send icons
+- Markdown + code block support
+- Live loading spinner
+- Animated chat bubble layout
+
+### 📊 Metrics Tab
+- Fetches metrics from `/api/metrics`
+- Displays model progress, token usage, and ETA
+- Smooth progress bar with Tailwind animation
+- Radial chart support (optional)
+
+### 🧠 Logs Tab
+- Displays agent communication logs (like terminal output)
+- Fetched from `/api/logs` (currently using mock data)
+- Styled like a developer console
+- Uses Lucide icons + monospaced layout
+
+---
+
+## 📦 Setup & Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs at http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+⸻
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🧪 Endpoints (Mock for now)
+	•	GET /api/metrics → returns model progress data
+	•	GET /api/logs → returns array of string logs
 
-## Learn More
+⸻
 
-To learn more about Next.js, take a look at the following resources:
+✅ Next Phase (WIP)
+	•	Phase 6: Code View Tabs
+	•	VSCode-style file tree
+	•	Multi-tab Monaco Editor
+	•	Preview, Configure, Insights panels
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+⸻
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+📁 Folder Structure
 
-## Deploy on Vercel
+src/
+  app/
+    layout.tsx
+    page.tsx
+    api/
+      metrics/route.ts
+      logs/route.ts
+  components/
+    LeftPanel/
+      ChatTab.tsx
+      MetricsTab.tsx
+      LogsTab.tsx
+    RightPanel/
+      (coming soon...)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+⸻
+
+👨‍💻 Author
+
+Venkata Sai Ancha
+🔗 GitHub | LinkedIn
+
+---
+
+Let me know if you want:
+- A shorter README (for team)
+- A version with screenshots
+- A public-facing one for GitHub
+
+And when you're ready, we jump into **Phase 6: Code View** with Monaco and file tab navigation 🧑‍💻📂
