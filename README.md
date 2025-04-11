@@ -86,11 +86,3 @@ src/
 Venkata Sai Ancha
 🔗 GitHub | LinkedIn
 
----
-
-Let me know if you want:
-- A shorter README (for team)
-- A version with screenshots
-- A public-facing one for GitHub
-
-And when you're ready, we jump into **Phase 6: Code View** with Monaco and file tab navigation 🧑‍💻📂
