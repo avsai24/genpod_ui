@@ -9,22 +9,24 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    console.log('[AuthGuard]', { status, session }) // Debug
-
     if (status === 'unauthenticated') {
-      router.replace('/login')
+      router.push('/login')
     }
-  }, [status, router, session])
+  }, [status, router])
 
   if (status === 'loading') {
     return (
       <div className="h-screen flex items-center justify-center text-gray-400 text-sm">
-        Checking authentication...
+        Authenticating...
       </div>
     )
   }
 
-  if (status === 'unauthenticated') return null
+  // Session is ready
+  if (status === 'authenticated') {
+    return <>{children}</>
+  }
 
-  return <>{children}</>
+  // While redirecting
+  return null
 }
