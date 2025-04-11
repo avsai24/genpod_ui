@@ -3,6 +3,7 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { ReactNode, useEffect } from 'react'
+import { motion } from 'framer-motion'
 
 export default function AuthGuard({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession()
@@ -16,17 +17,22 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
 
   if (status === 'loading') {
     return (
-      <div className="h-screen flex items-center justify-center text-gray-400 text-sm">
-        Authenticating...
+      <div className="h-screen flex flex-col items-center justify-center bg-black text-white">
+        <motion.div
+          className="text-4xl font-bold mb-4"
+          animate={{ opacity: [0.2, 1, 0.2] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          🧠 Genpod
+        </motion.div>
+        <p className="text-sm text-gray-400">Checking authentication...</p>
       </div>
     )
   }
 
-  // Session is ready
-  if (status === 'authenticated') {
-    return <>{children}</>
+  if (status === 'unauthenticated') {
+    return null
   }
 
-  // While redirecting
-  return null
+  return <>{children}</>
 }
