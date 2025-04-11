@@ -71,7 +71,7 @@ export default function FileTree({
             if (isFolder) {
               toggle(node.path)
             } else {
-              onFileClick?.({ name: node.name, path: node.path })  // ✅ THIS FIRES FILE CLICK
+              onFileClick?.({ name: node.name, path: node.path })  
             }
           }}
         >
